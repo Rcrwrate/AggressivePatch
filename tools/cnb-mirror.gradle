@@ -1,0 +1,83 @@
+// 让所有 Gradle 调用（命令行 / JDT LS Buildship / Gradle Build Server）优先走自建 Maven 镜像。
+//
+// 用法：
+//   1) 放到 $GRADLE_USER_HOME/init.d/ 下即可对所有构建自动生效（推荐，IDE 启动的 Gradle 也会加载）；
+//   2) 或单次使用：./gradlew -I tools/sync-maven/cnb-mirror.gradle <task>；
+//   3) 或在 VS Code 设置里显式传给 Buildship：
+//      "java.import.gradle.arguments": "-I /workspace/tools/sync-maven/cnb-mirror.gradle"
+//      "java.import.gradle.user.home": "/root/.gradle"
+//
+// 原理：把上游仓库（nexus.gtnewhorizons.com）的 URL 直接改成镜像地址，并把它提到仓库列表最前。
+// 仓库 name 不变，所以已缓存的 pom/.module 元数据继续命中，但构件（含 sources/javadoc）会从
+// 新 URL 下载 —— JDT LS 拉取 *-sources.jar 时同样走镜像。
+
+import org.gradle.api.artifacts.dsl.RepositoryHandler
+import org.gradle.api.artifacts.repositories.MavenArtifactRepository
+
+// ---- 可配置项 ----------------------------------------------------------
+def MIRROR = 'https://maven.cnb.cool/shirokasoke/love/-/packages/'
+def UPSTREAM_PREFIXES = ['https://nexus.gtnewhorizons.com']
+// 镜像缺包时是否保留原上游仓库作为兜底（false = 强制只走镜像，缺包直接失败）
+def KEEP_UPSTREAM = true
+// -----------------------------------------------------------------------
+
+def patchRepositories = { String scope, RepositoryHandler repos ->
+    def mavenRepos = repos.findAll { it instanceof MavenArtifactRepository } as List
+    def upstreams = mavenRepos.findAll { r ->
+        def u = r.url?.toString()
+        u && UPSTREAM_PREFIXES.any { u.startsWith(it) } && u != MIRROR
+    }
+
+    if (!upstreams.isEmpty()) {
+        upstreams.reverse().each { repo ->
+            def oldUrl = repo.url.toString()
+            repo.setUrl(MIRROR)
+            logger.lifecycle("[cnb-mirror] ${scope}: ${repo.name} ${oldUrl} -> ${MIRROR}")
+            if (KEEP_UPSTREAM) {
+                // 兜底仓库放在末尾：镜像上没有的构件再回落上游
+                repos.maven { MavenArtifactRepository m ->
+                    m.name = "${repo.name}Upstream"
+                    m.url = oldUrl
+                }
+            }
+            // 把镜像提到最前，避免先去 mojang/forge/sponge/mavenCentral 逐个 404
+            try {
+                repos.remove(repo)
+                repos.add(0, repo)
+            } catch (Throwable t) {
+                logger.lifecycle("[cnb-mirror] ${scope}: cannot reorder ${repo.name} (${t.message})")
+            }
+        }
+    } else if (mavenRepos.isEmpty() || mavenRepos.any { it.url?.toString() == MIRROR }) {
+        // settings 级容器为空（Gradle 会回落到项目仓库）或镜像已在列，不做任何事，
+        // 避免向空容器里塞入只含镜像的仓库集、把项目仓库整体顶掉。
+    } else {
+        def mirror = repos.maven { MavenArtifactRepository m ->
+            m.name = 'cnbMirror'
+            m.url = MIRROR
+        }
+        try {
+            repos.remove(mirror)
+            repos.add(0, mirror)
+            logger.lifecycle("[cnb-mirror] ${scope}: + cnbMirror(first) ${MIRROR}")
+        } catch (Throwable t) {
+            logger.lifecycle("[cnb-mirror] ${scope}: + cnbMirror ${MIRROR}")
+        }
+    }
+
+    logger.lifecycle("[cnb-mirror] ${scope} -> " + repos.collect {
+        "${it.name}=${(it instanceof MavenArtifactRepository) ? it.url : it}"
+    }.join(', '))
+}
+
+settingsEvaluated { settings ->
+    patchRepositories('dependencyResolutionManagement', settings.dependencyResolutionManagement.repositories)
+}
+
+gradle.projectsLoaded { g ->
+    g.rootProject.allprojects { p ->
+        p.afterEvaluate { prj ->
+            patchRepositories("project:${prj.path}", prj.repositories)
+        }
+    }
+}
