@@ -37,6 +37,6 @@ dependencies {
     api("com.github.GTNewHorizons:GTNHLib:0.11.37:dev")
     api('com.github.GTNewHorizons:Hodgepodge:2.7.166:dev')
 
-    api("com.github.luben:zstd-jni:1.5.7-11")
-    runtimeOnly("com.github.luben:zstd-jni:1.5.7-11")
+    api("com.github.luben:zstd-jni:1.5.7-16")
+    runtimeOnly("com.github.luben:zstd-jni:1.5.7-16")
 }

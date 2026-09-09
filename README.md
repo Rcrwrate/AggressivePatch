@@ -19,7 +19,7 @@ Minecraft 1.7.10 / Forge 网络压缩补丁（GTNH 工具链）。
 ![Repo size](https://img.shields.io/github/repo-size/Rcrwrate/AggressivePatch)
 
 1. 前置依赖：**UniMixins**、**GTNHLib**、**Hodgepodge**
-2. Zstd 库：[zstd-jni-1.5.7-11.jar](https://repo1.maven.org/maven2/com/github/luben/zstd-jni/1.5.7-11/zstd-jni-1.5.7-11.jar)，下载后放置于mods/
+2. Zstd 库：[zstd-jni-1.5.7-16.jar](https://repo1.maven.org/maven2/com/github/luben/zstd-jni/1.5.7-16/zstd-jni-1.5.7-16.jar)，下载后放置于mods/
 3. 本mod
 
 ---

@@ -1,5 +1,7 @@
 package love.shirokasoke.aggressivepatch.commands;
 
+import static love.shirokasoke.aggressivepatch.mixins.NBTConfig.custom;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,7 +15,6 @@ import com.gtnewhorizon.gtnhlib.config.ConfigurationManager;
 
 import love.shirokasoke.aggressivepatch.Tags;
 import love.shirokasoke.aggressivepatch.mixins.NBTConfig;
-import love.shirokasoke.aggressivepatch.mixins.NBTConfig.Custom;
 import love.shirokasoke.aggressivepatch.mixins.NettyConfig;
 
 public class Server extends CommandBase {
@@ -75,13 +76,13 @@ public class Server extends CommandBase {
         if (NBTConfig.compressLevel == 25) {
             sender.addChatMessage(
                 new ChatComponentText(
-                    "  < " + Custom.smallLimit + " B: " + EnumChatFormatting.YELLOW + describe(Custom.smallLevel)));
+                    "  < " + custom.smallLimit + " B: " + EnumChatFormatting.YELLOW + describe(custom.smallLevel)));
             sender.addChatMessage(
                 new ChatComponentText(
-                    "  < " + Custom.medianLimit + " B: " + EnumChatFormatting.YELLOW + describe(Custom.medianLevel)));
+                    "  < " + custom.medianLimit + " B: " + EnumChatFormatting.YELLOW + describe(custom.medianLevel)));
             sender.addChatMessage(
                 new ChatComponentText(
-                    "  >= " + Custom.medianLimit + " B: " + EnumChatFormatting.YELLOW + describe(Custom.largeLevel)));
+                    "  >= " + custom.medianLimit + " B: " + EnumChatFormatting.YELLOW + describe(custom.largeLevel)));
         }
 
         if (NettyConfig.enabled) {

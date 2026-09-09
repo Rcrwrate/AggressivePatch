@@ -9,6 +9,7 @@ import love.shirokasoke.aggressivepatch.MyMod;
 public class NBTConfig {
 
     static {
+        custom = new Custom();
         ConfigurationManager.registerConfig(NBTConfig.class);
     }
 
@@ -24,7 +25,7 @@ public class NBTConfig {
     public static int compressLevel;
 
     @Config.Comment("Compression level tiers picked from the serialized NBT size")
-    public static Custom custom = new Custom();
+    public static Custom custom;
 
     public static class Custom {
 
@@ -32,7 +33,7 @@ public class NBTConfig {
         @Config.Comment("If the serialized NBT size (in bytes) is smaller than this, smallLevel overrides compressLevel")
         @Config.RangeInt(min = 0)
         @Config.DefaultInt(512)
-        public static int smallLimit;
+        public int smallLimit;
 
         @Config.Reloadable("mixin")
         @Config.Comment({ "Same encoding as compressLevel: 0-22 = zstd level, 23 = no compression, 24 = pooled GZIP",
@@ -40,7 +41,7 @@ public class NBTConfig {
             "Tiny NBTs usually are not worth compressing, so 23 (raw) is a sane default" })
         @Config.RangeInt(min = 0, max = 25)
         @Config.DefaultInt(23)
-        public static int smallLevel;
+        public int smallLevel;
 
         @Config.Reloadable("mixin")
         @Config.Comment({
@@ -48,19 +49,19 @@ public class NBTConfig {
             "If the size is >= this value, largeLevel overrides compressLevel" })
         @Config.RangeInt(min = 0)
         @Config.DefaultInt(4096)
-        public static int medianLimit;
+        public int medianLimit;
 
         @Config.Reloadable("mixin")
         @Config.Comment("Same encoding as smallLevel")
         @Config.RangeInt(min = 0, max = 25)
         @Config.DefaultInt(3)
-        public static int medianLevel;
+        public int medianLevel;
 
         @Config.Reloadable("mixin")
         @Config.Comment("Same encoding as smallLevel")
         @Config.RangeInt(min = 0, max = 25)
         @Config.DefaultInt(7)
-        public static int largeLevel;
+        public int largeLevel;
     }
 
 }

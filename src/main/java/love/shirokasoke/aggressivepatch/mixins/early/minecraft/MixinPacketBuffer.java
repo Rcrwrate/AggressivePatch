@@ -1,5 +1,7 @@
 package love.shirokasoke.aggressivepatch.mixins.early.minecraft;
 
+import static love.shirokasoke.aggressivepatch.mixins.NBTConfig.custom;
+
 import java.io.IOException;
 
 import net.minecraft.nbt.NBTSizeTracker;
@@ -19,7 +21,6 @@ import com.mitchej123.hodgepodge.util.PooledGzipInputStream;
 import com.mitchej123.hodgepodge.util.PooledGzipOutputStream;
 
 import love.shirokasoke.aggressivepatch.mixins.NBTConfig;
-import love.shirokasoke.aggressivepatch.mixins.NBTConfig.Custom;
 import love.shirokasoke.aggressivepatch.utils.PooledGzip;
 import love.shirokasoke.aggressivepatch.utils.PooledZstdInputStream;
 import love.shirokasoke.aggressivepatch.utils.UncompressedInputStream;
@@ -91,9 +92,9 @@ public class MixinPacketBuffer {
 
     @Unique
     private static int ap$resolveCustomLevel(int size) {
-        if (size < Custom.smallLimit) return Custom.smallLevel;
-        if (size < Custom.medianLimit) return Custom.medianLevel;
-        return Custom.largeLevel;
+        if (size < custom.smallLimit) return custom.smallLevel;
+        if (size < custom.medianLimit) return custom.medianLevel;
+        return custom.largeLevel;
     }
 
     /**
