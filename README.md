@@ -18,9 +18,17 @@ Minecraft 1.7.10 / Forge 网络压缩补丁（GTNH 工具链）。
 ![Docker size](https://img.shields.io/docker/image-size/shirokasoke/mcwebapi)
 ![Repo size](https://img.shields.io/github/repo-size/Rcrwrate/AggressivePatch)
 
-1. 前置依赖：**UniMixins**、**GTNHLib**、**Hodgepodge**
-2. Zstd 库：[zstd-jni-1.5.7-16.jar](https://repo1.maven.org/maven2/com/github/luben/zstd-jni/1.5.7-16/zstd-jni-1.5.7-16.jar)，下载后放置于mods/
-3. 本mod
+目前状态：
+
+在一定程度下向下兼容
+
+| GTNHLib版本 | Hodgepodge版本 | zstd版本 | 最后版本 |
+| ----------- | -------------- | ----------- | -------- |
+| 0.11.37 | 2.7.166 | [zstd-jni-1.5.7-16.jar](https://repo1.maven.org/maven2/com/github/luben/zstd-jni/1.5.7-16/zstd-jni-1.5.7-16.jar) | 0.1 |
+
+1. 前置依赖：**GTNHLib**、**Hodgepodge**
+2. Zstd 库（点击上方下载），放置在mods文件夹下
+3. 本mods
 
 ---
 
@@ -71,17 +79,17 @@ Minecraft 1.7.10 / Forge 网络压缩补丁（GTNH 工具链）。
 
 > [!TIP]
 > 压缩是 CPU 密集型操作：`codecThreads` 推荐设为 CPU **物理核心数**-1（勿超过物理核心数）
-> 
+>
 > 玩家数不超过物理核心数时可设 `0`，直接在 Netty IO 线程上压缩。
 
-| 选项 | 默认 | 说明 |
-| ---- | ---- | ---- |
-| `enabled` | `true` | 总开关，两端必须一致；修改需重启 |
-| `compressLevel` | `3` | 出站压缩级别（`1-22`），越大越占 CPU |
-| `blockSizeBytes` | `65536` | 累积块大小（字节）。填满即压成一个独立压缩块，未填满的部分在下一次发送时吐出。块越大单次压缩率越高，但一般只对大块数据有额外收益，每个连接会常驻一个该大小的缓冲区 |
-| `windowLog` | `18` | zstd 共享历史窗口（2 的幂，`10-27`）。越大对重复数据压缩率越高；两端每连接内存约 3 倍窗口大小 |
-| `codecThreads` | `0` | `0` = 在 Netty IO 线程压缩；`> 0` = 独立压缩线程池大小（推荐 `2-4`） |
-| `useStreamCompress` | `true` | 是否使用流式压缩，压缩率更高 |
+| 选项                | 默认    | 说明                                                                                                                                                               |
+| ------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `enabled`           | `true`  | 总开关，两端必须一致；修改需重启                                                                                                                                   |
+| `compressLevel`     | `3`     | 出站压缩级别（`1-22`），越大越占 CPU                                                                                                                               |
+| `blockSizeBytes`    | `65536` | 累积块大小（字节）。填满即压成一个独立压缩块，未填满的部分在下一次发送时吐出。块越大单次压缩率越高，但一般只对大块数据有额外收益，每个连接会常驻一个该大小的缓冲区 |
+| `windowLog`         | `18`    | zstd 共享历史窗口（2 的幂，`10-27`）。越大对重复数据压缩率越高；两端每连接内存约 3 倍窗口大小                                                                      |
+| `codecThreads`      | `0`     | `0` = 在 Netty IO 线程压缩；`> 0` = 独立压缩线程池大小（推荐 `2-4`）                                                                                               |
+| `useStreamCompress` | `true`  | 是否使用流式压缩，压缩率更高                                                                                                                                       |
 
 `codecThreads` 取舍：`0` 时压缩占用共享 Netty IO 线程，级别过高会拖慢同线程上的其他玩家（**默认级别因此只有 3**）；`> 0` 时可用空闲核心换更高级别而不影响他人延迟，代价是每次转发稍增延迟，线程池跟不上时数据会堆积在内存。
 
