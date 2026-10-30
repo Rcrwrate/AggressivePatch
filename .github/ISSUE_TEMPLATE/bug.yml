@@ -1,0 +1,42 @@
+name: 🐞错误报告
+description: 报告任何存在的问题
+labels: ["bug"]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: MOD版本
+      placeholder: x-x-x
+    validations:
+      required: true
+  - type: textarea
+    id: message
+    attributes:
+      label: 描述问题
+      description: 任何需要的东西请在此添加
+      placeholder: |-
+        请不要使用AI代替你描述
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: 日志
+      description: 上传你的完整日志，请自行过滤隐私内容
+      placeholder: |-
+        anything
+    validations:
+      required: true
+  - type: textarea
+    id: other
+    attributes:
+      label: 其他
+      description: 截图，等等其他不重要的东西
+      placeholder: |-
+        anything
+    validations:
+      required: false
+  - type: markdown
+    attributes:
+      value: |-
+        ## Thanks 🙏

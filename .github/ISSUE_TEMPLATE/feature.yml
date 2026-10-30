@@ -1,0 +1,26 @@
+name: 💡好点子/需求提交
+description: enhancement
+labels: ['enhancement']
+body:
+  - type: textarea
+    id: message
+    attributes:
+      label: 描述你的想法
+      description: 任何需要的东西请在此添加
+      placeholder: |-
+        请尽可能详细描述
+    validations:
+      required: true
+  - type: textarea
+    id: other
+    attributes:
+      label: 其他
+      description: 截图，等等其他不重要的东西
+      placeholder: |-
+        anything
+    validations:
+      required: false
+  - type: markdown
+    attributes:
+      value: |-
+        ## Thanks 🙏

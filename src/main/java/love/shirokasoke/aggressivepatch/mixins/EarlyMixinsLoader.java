@@ -13,13 +13,18 @@ import com.gtnewhorizon.gtnhmixins.IEarlyMixinLoader;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
 @IFMLLoadingPlugin.MCVersion("1.7.10")
+@IFMLLoadingPlugin.TransformerExclusions("love.shirokasoke.aggressivepatch.core")
 public class EarlyMixinsLoader implements IFMLLoadingPlugin, IEarlyMixinLoader {
 
     public static final Logger LOG = LogManager.getLogger("AP-EarlyMixins");
 
     @Override
     public String[] getASMTransformerClass() {
-        return null;
+        List<String> asms = new ArrayList<>();
+        if (!asms.isEmpty()) {
+            LOG.info("Enabled early ASM: {}", asms);
+        }
+        return asms.toArray(new String[0]);
     }
 
     @Override

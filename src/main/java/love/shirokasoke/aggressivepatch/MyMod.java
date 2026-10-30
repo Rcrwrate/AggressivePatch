@@ -14,7 +14,7 @@ import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 @Mod(modid = MyMod.MODID, version = Tags.VERSION, name = "AggressivePatch", acceptedMinecraftVersions = "[1.7.10]")
 public class MyMod {
 
-    public static final String MODID = "aggressivepatch";
+    public static final String MODID = "AggressivePatch";
     public static final Logger LOG = LogManager.getLogger(MODID);
 
     @SidedProxy(

@@ -34,10 +34,13 @@ public class LateMixinsLoader implements ILateMixinLoader {
         // you can check this Set to conditionally load certain mixins.
         List<String> mixins = new ArrayList<>();
 
-        // Example: conditionally enable a late mixin based on config + mod presence:
-        // if (MixinConfig.enableSomeModMixin && loadedMods.contains("some_modid")) {
-        // mixins.add("SomeModMixin");
-        // }
+        if (OCConfig.enabled) {
+            mixins.add("oc.PrintDataMixin");
+        }
+
+        if (!mixins.isEmpty()) {
+            LOG.info("Enabled late mixins: {}", mixins);
+        }
 
         return mixins;
     }

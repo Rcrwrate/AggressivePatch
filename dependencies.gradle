@@ -39,4 +39,17 @@ dependencies {
 
     api("com.github.luben:zstd-jni:1.5.7-16")
     runtimeOnly("com.github.luben:zstd-jni:1.5.7-16")
+
+    // compileClasspath
+    api('com.github.GTNewHorizons:CodeChickenCore:1.4.19:dev')
+    api('com.github.GTNewHorizons:Applied-Energistics-2-Unofficial:rv3-beta-1000-GTNH:dev')
+    // :runtimeClasspath
+    api('com.github.GTNewHorizons:NotEnoughItems:2.8.130-GTNH:dev')
+    
+     // OC 自身类以及编译期依赖, 用于mixin
+    api('com.github.GTNewHorizons:OpenComputers:1.12.61-GTNH:dev'){
+        exclude(group: "com.github.GTNewHorizons", module: "CodeChickenLib")
+    }
+    compileOnly("maven.modrinth:immibis-microblocks:59.1.2")
+    compileOnly("maven.modrinth:redlogic:59.1.13")
 }
