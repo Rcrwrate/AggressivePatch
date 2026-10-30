@@ -1,11 +1,9 @@
 # Aggressive Patch
 
-Minecraft 1.7.10 / Forge 网络压缩补丁（GTNH 工具链）。
+## 功能简述
 
-1.7.10 原版**没有任何网络压缩**（压缩是 1.8 才引入的）。本 mod 在两个层面把流量打下来：
-
-- **NBT**：压缩 `PacketBuffer` 里传输的 NBT 数据（区块、TileEntity、物品 NBT 等）。
-- **TCP**：压缩服务端 → 客户端的**整条下行字节流**（含包头与长度前缀）。
+- **NBT压缩**：修改NBT压缩方式（NBT压缩位于主线程，会影响TPS）
+- **TCP压缩**：为网络IO新增单向压缩：只压缩服务端 → 客户端的整条下行字节流
 
 ---
 
@@ -30,6 +28,12 @@ Minecraft 1.7.10 / Forge 网络压缩补丁（GTNH 工具链）。
 2. Zstd 库（点击上方下载），放置在mods文件夹下
 3. 本mods
 
+## 其他mod
+
+[![](https://img.shields.io/github/v/release/Rcrwrate/MCWebAPI?logo=github&label=MCWebAPI)](https://github.com/Rcrwrate/MCWebAPI)
+[![](https://img.shields.io/github/v/release/Rcrwrate/AggressivePatch?logo=github&label=AggressivePatch)](https://github.com/Rcrwrate/AggressivePatch)
+[![](https://img.shields.io/github/v/release/Rcrwrate/CropsPower?logo=github&label=CropsPower)](https://github.com/Rcrwrate/CropsPower)
+
 ---
 
 ## 使用说明
@@ -52,7 +56,6 @@ Minecraft 1.7.10 / Forge 网络压缩补丁（GTNH 工具链）。
 - **服务器列表 ping 不受影响**，安装了本mod的服务端可以正常被未安装本 mod 的客户端 ping 到，但是客户端无法进入游戏。
 - **服务端与客户端必须同时安装，功能开关必须保持一致，其他配置可以不一致**，单端开启 = 对端收到乱码并断线。
 - 修改 `netty.enabled` 后需要**重启**；其余选项可用 `/aps reload` 热重载
-  （`netty.codecThreads` 的线程池在首次压缩连接时创建一次，改动后同样需要重启）。
 
 ---
 
@@ -73,7 +76,7 @@ Minecraft 1.7.10 / Forge 网络压缩补丁（GTNH 工具链）。
 | `custom.medianLevel` | `3`    | 中 NBT 的编码方式                                      |
 | `custom.largeLevel`  | `7`    | 大 NBT 的编码方式                                      |
 
-> `compressLevel = 24` 时本 mod 完全不介入 NBT 处理，交给 Hodgepodge 的原生实现。
+> `compressLevel = 24` 时等同于交给 Hodgepodge 的原生实现
 
 ### `netty`
 
