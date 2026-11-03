@@ -7,17 +7,17 @@ git init -q -b main
 git remote add origin "https://cnb:${CNB_TOKEN}@cnb.cool/shirokasoke/GTNH"
 
 git sparse-checkout init --cone
-git sparse-checkout set 2.9.0-beta3
+git sparse-checkout set 2.9.0
 
 # 浅克隆，LFS 只取需要的范围（先排除 World，最后一次拉全，避免 LFS 二次扫描）
 git fetch --depth=1 origin main
 
-git config lfs.fetchinclude "2.9.0-beta3/*"
+git config lfs.fetchinclude "2.9.0/*"
 GIT_LFS_SKIP_SMUDGE=0 git checkout -f FETCH_HEAD
 # git lfs pull
 
 rm -rf /workspace/GTNH-server
-mv "/tmp/GTNH/2.9.0-beta3" /workspace/GTNH-server
+mv "/tmp/GTNH/2.9.0" /workspace/GTNH-server
 rm -rf "/tmp/GTNH"
 
 cd /tmp

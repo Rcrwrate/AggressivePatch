@@ -25,9 +25,10 @@
 
 在一定程度下向下兼容
 
-| GTNHLib版本 | Hodgepodge版本 | zstd版本 | 最后版本 |
-| ----------- | -------------- | ----------- | -------- |
-| 0.11.37 | 2.7.166 | [zstd-jni-1.5.7-16.jar](https://repo1.maven.org/maven2/com/github/luben/zstd-jni/1.5.7-16/zstd-jni-1.5.7-16.jar) | 0.1 |
+| GTNH版本 | GTNHLib版本 | Hodgepodge版本 | OC版本(可无视) | zstd版本 | 最后版本 |
+| --- | --- | --- | --- | --- | --- |
+| 2.9.0-beta3 | 0.11.37 | 2.7.166 | 1.12.61 | [zstd-jni-1.5.7-16.jar](https://repo1.maven.org/maven2/com/github/luben/zstd-jni/1.5.7-16/zstd-jni-1.5.7-16.jar) | 0.3 |
+| 2.9.0 | 0.11.54 | 2.7.221 | 1.12.68 | [zstd-jni-1.5.7-25.jar](https://repo1.maven.org/maven2/com/github/luben/zstd-jni/1.5.7-25/zstd-jni-1.5.7-25.jar) | 0.4 |
 
 1. 前置依赖：**GTNHLib**、**Hodgepodge**
 2. Zstd 库（点击上方下载），放置在mods文件夹下
@@ -56,11 +57,11 @@
 
 ### 生效范围与注意事项
 
-- **离线模式服务器（`online-mode=false`）下 TCP 流压缩不生效**，下行流量保持未压缩；NBT 层压缩照常生效。
-- **单人世界没有收益**：本地连接不经过真实 socket，不会被压缩。
-- **服务器列表 ping 不受影响**，安装了本mod的服务端可以正常被未安装本 mod 的客户端 ping 到，但是客户端无法进入游戏。
-- **服务端与客户端必须同时安装，功能开关必须保持一致，其他配置可以不一致**，单端开启 = 对端收到乱码并断线。
-- 修改 `netty.enabled` 后需要**重启**；其余选项可用 `/aps reload` 热重载
+- **离线模式服务器（`online-mode=false`）下 TCP 流压缩不生效**，NBT 层压缩正常
+- **单人世界没有收益**：本地连接不经过真实 socket，不会被压缩（你为什么要单人模式用这个？）
+- **服务器列表 ping 不受影响**，安装了本mod的服务端可以正常被未安装本 mod 的客户端 ping 到，但是客户端无法进入游戏
+- **服务端与客户端必须同时安装，功能开关必须保持一致，其他配置可以不一致**，单端开启 = 对端收到乱码并断线
+- 修改任意开关后需要**重启**；其余部分选项可用 `/aps reload` 热重载
 
 ---
 
@@ -71,7 +72,7 @@
 > [!IMPORTANT]
 > NBT压缩在主线程！最佳选择是不进行任何压缩，如果带宽不足，推荐妥协为使用zstd进行压缩
 
-`compressLevel`：`0-22` = zstd 且该值为压缩级别；`23` = 不压缩（裸 NBT）；`24` = GZIP（与原版线格式兼容）；`25` = 按 NBT 大小分档（见下）
+`compressLevel`：`0-22` = zstd 且该值为压缩级别；`23` = 不压缩（裸 NBT）；`24` = GZIP（GTNH默认方式，不变动）；`25` = 按 NBT 大小分档（见下）
 
 | 选项                 | 默认   | 说明                                                   |
 | -------------------- | ------ | ------------------------------------------------------ |
@@ -80,8 +81,6 @@
 | `custom.medianLimit` | `4096` | 中 NBT 与 大 NBT 分界点                                |
 | `custom.medianLevel` | `3`    | 中 NBT 的编码方式                                      |
 | `custom.largeLevel`  | `7`    | 大 NBT 的编码方式                                      |
-
-> `compressLevel = 24` 时等同于交给 Hodgepodge 的原生实现
 
 ### `netty`
 

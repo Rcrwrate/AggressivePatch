@@ -34,20 +34,20 @@
  * For more details, see https://docs.gradle.org/8.0.1/userguide/java_library_plugin.html#sec:java_library_configurations_graph
  */
 dependencies {
-    api("com.github.GTNewHorizons:GTNHLib:0.11.37:dev")
-    api('com.github.GTNewHorizons:Hodgepodge:2.7.166:dev')
+    api("com.github.GTNewHorizons:GTNHLib:0.11.54:dev")
+    api('com.github.GTNewHorizons:Hodgepodge:2.7.221:dev')
 
-    api("com.github.luben:zstd-jni:1.5.7-16")
-    runtimeOnly("com.github.luben:zstd-jni:1.5.7-16")
+    api("com.github.luben:zstd-jni:1.5.7-25")
+    runtimeOnly("com.github.luben:zstd-jni:1.5.7-25")
 
     // compileClasspath
-    api('com.github.GTNewHorizons:CodeChickenCore:1.4.19:dev')
-    api('com.github.GTNewHorizons:Applied-Energistics-2-Unofficial:rv3-beta-1000-GTNH:dev')
+    api('com.github.GTNewHorizons:CodeChickenCore:1.4.22:dev')
+    api('com.github.GTNewHorizons:Applied-Energistics-2-Unofficial:rv3-beta-1095-GTNH:dev')
     // :runtimeClasspath
-    api('com.github.GTNewHorizons:NotEnoughItems:2.8.130-GTNH:dev')
+    api('com.github.GTNewHorizons:NotEnoughItems:2.8.171-GTNH:dev')
     
      // OC 自身类以及编译期依赖, 用于mixin
-    api('com.github.GTNewHorizons:OpenComputers:1.12.61-GTNH:dev'){
+    api('com.github.GTNewHorizons:OpenComputers:1.12.68-GTNH:dev'){
         exclude(group: "com.github.GTNewHorizons", module: "CodeChickenLib")
     }
     compileOnly("maven.modrinth:immibis-microblocks:59.1.2")
