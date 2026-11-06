@@ -31,7 +31,7 @@
 | 2.9.0 | 0.11.54 | 2.7.221 | 1.12.68 | [zstd-jni-1.5.7-25.jar](https://repo1.maven.org/maven2/com/github/luben/zstd-jni/1.5.7-25/zstd-jni-1.5.7-25.jar) | 0.4 |
 
 1. 前置依赖：**GTNHLib**、**Hodgepodge**
-2. Zstd 库（点击上方下载），放置在mods文件夹下
+2. zstd库更新，直接移除客户端/服务器下的`falsepattern`目录，mod会自动下载新的依赖
 3. 本mods
 
 ## 其他mod

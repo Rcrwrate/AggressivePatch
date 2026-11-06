@@ -1,0 +1,18 @@
+{
+    "identifier": "falsepatternlib_dependencies",
+    "repositories": [
+        "https://maven.cnb.cool/shirokasoke/love/-/packages/",
+        "https://repo1.maven.org/maven2/",
+        "https://maven.gaytnh.com/gtnh-public",
+        "https://maven.aliyun.com/repository/public"
+    ],
+    "dependencies": {
+        "always": {
+            "common": [
+                "com.github.luben:zstd-jni:1.5.7-25"
+            ],
+            "client": [],
+            "server": []
+        }
+    }
+}
